@@ -13,13 +13,15 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     public void add(T model) {
-        if (size == container.length) {
-            Object[] temp = new Object[container.length + DEFAULT_CAPACITY];
-            System.arraycopy(container, 0, temp, 0, container.length);
-            container = temp;
-        }
+        resizeContainer();
         container[size++] = model;
         modCount++;
+    }
+
+    private void resizeContainer() {
+        if (size == container.length) {
+            container = Arrays.copyOf(container, size + DEFAULT_CAPACITY);
+        }
     }
 
     public T get(int index) {
