@@ -7,13 +7,13 @@ public class SimpleQueue<T> {
     public T poll() {
         if (out.getSize() == 0) {
             while (in.getSize() != 0) {
-                out.pushLast(in.pop());
+                out.push(in.pop());
             }
         }
         return out.pop();
     }
 
     public void push(T value) {
-        in.pushLast(value);
+        in.push(value);
     }
 }

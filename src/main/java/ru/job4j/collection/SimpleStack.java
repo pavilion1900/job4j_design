@@ -14,11 +14,6 @@ public class SimpleStack<T> {
         size++;
     }
 
-    public void pushLast(T value) {
-        linked.add(value);
-        size++;
-    }
-
     public int getSize() {
         return size;
     }
