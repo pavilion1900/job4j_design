@@ -27,6 +27,11 @@ public class User {
                 && Objects.equals(birthday, user.birthday);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, children, birthday);
+    }
+
     public static void main(String[] args) {
         User first = new User("Max", 1, new GregorianCalendar(1988, Calendar.JUNE, 20));
         User second = new User("Max", 1, new GregorianCalendar(1988, Calendar.JUNE, 20));
