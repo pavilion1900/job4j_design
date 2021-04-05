@@ -1,8 +1,6 @@
 package ru.job4j.collection.map;
 
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class SimpleHashMap<K, V> implements Iterable<V> {
     private final static float LOAD_FACTOR = 0.6f;
@@ -32,16 +30,16 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
 
     public V get(K key) {
         int index = indexOfBucket(key);
-        return table[index] != null ? table[index].value : null;
+        return table[index].key.equals(key) ? table[index].value : null;
     }
 
     public boolean delete(K key) {
         boolean rsl = false;
         int index = indexOfBucket(key);
-        if (table[index] != null) {
+        if (table[index].key.equals(key)) {
             table[index] = null;
             size--;
-            modCount--;
+            modCount++;
             rsl = true;
         }
         return rsl;
@@ -50,6 +48,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
     private Node<K, V>[] resizeTable() {
         Node<K, V>[] oldTable = table;
         Node<K, V>[] newTable = new Node[oldTable.length * 2];
+        table = newTable;
         for (Node<K, V> node : oldTable) {
             Node<K, V> temp;
             if (node != null) {
@@ -57,7 +56,6 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
                 newTable[indexOfBucket(temp.key)] = temp;
             }
         }
-        table = newTable;
         return table;
     }
 
