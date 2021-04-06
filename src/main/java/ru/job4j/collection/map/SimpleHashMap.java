@@ -29,18 +29,26 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
     }
 
     public V get(K key) {
+        V rsl = null;
         int index = indexOfBucket(key);
-        return table[index].key.equals(key) ? table[index].value : null;
+        if (table[index] != null) {
+            if (table[index].key.equals(key)) {
+                rsl = table[index].value;
+            }
+        }
+        return rsl;
     }
 
     public boolean delete(K key) {
         boolean rsl = false;
         int index = indexOfBucket(key);
-        if (table[index].key.equals(key)) {
-            table[index] = null;
-            size--;
-            modCount++;
-            rsl = true;
+        if (table[index] != null) {
+            if (table[index].key.equals(key)) {
+                table[index] = null;
+                size--;
+                modCount++;
+                rsl = true;
+            }
         }
         return rsl;
     }
