@@ -29,4 +29,17 @@ public class SimpleTreeTest {
                 is(false)
         );
     }
+
+    @Test
+    public void whenAddIdenticalElements() {
+        Tree<Integer> tree = new SimpleTree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 4);
+        tree.add(4, 5);
+        tree.add(5, 6);
+        tree.add(5, 2);
+        tree.add(5, 4);
+        assertFalse(tree.findBy(5).get().getChildren().contains(2));
+        assertFalse(tree.findBy(5).get().getChildren().contains(4));
+    }
 }
