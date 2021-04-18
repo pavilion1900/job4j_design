@@ -10,7 +10,7 @@ public class ResultFile {
                 for (int j = 0; j < table.length; j++) {
                     out.write(String.format("%4d", table[i][j]).getBytes());
                 }
-                out.write("\n".getBytes());
+                out.write(System.lineSeparator().getBytes());
             }
         } catch (Exception e) {
             e.printStackTrace();
