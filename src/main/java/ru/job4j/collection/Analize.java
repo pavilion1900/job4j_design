@@ -1,6 +1,8 @@
 package ru.job4j.collection;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Analize {
@@ -9,22 +11,25 @@ public class Analize {
         int add = 0;
         int change = 0;
         int delete = 0;
-        for (User user : current) {
-            if (!previous.contains(user)) {
+        Map<Integer, String> mapPrev = new HashMap<>();
+        for (User prevUser : previous) {
+            mapPrev.put(prevUser.getId(), prevUser.getName());
+        }
+        for (User currentUser : current) {
+            if (mapPrev.get(currentUser.getId()) == null) {
                 add++;
+            } else if (mapPrev.get(currentUser.getId()) != null
+                    && !mapPrev.get(currentUser.getId()).equals(currentUser.getName())) {
+                change++;
             }
         }
-        for (User user : previous) {
-            if (!current.contains(user)) {
-                delete++;
-            }
+        Map<Integer, String> mapCurrent = new HashMap<>();
+        for (User currentUser : current) {
+            mapCurrent.put(currentUser.getId(), currentUser.getName());
         }
         for (User prevUser : previous) {
-            for (User curUser : current) {
-                if (prevUser.getId() == curUser.getId()
-                        && !prevUser.getName().equals(curUser.getName())) {
-                    change++;
-                }
+            if (mapCurrent.get(prevUser.getId()) == null) {
+                delete++;
             }
         }
         return new Info(add, change, delete);
@@ -56,12 +61,12 @@ public class Analize {
                 return false;
             }
             User user = (User) o;
-            return id == user.id;
+            return id == user.id && Objects.equals(name, user.name);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(id);
+            return Objects.hash(id, name);
         }
     }
 
