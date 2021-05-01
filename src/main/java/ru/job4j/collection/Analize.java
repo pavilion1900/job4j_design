@@ -10,7 +10,7 @@ public class Analize {
     public Info diff(List<User> previous, List<User> current) {
         int add = 0;
         int change = 0;
-        int delete = 0;
+        int delete;
         Map<Integer, String> mapPrev = new HashMap<>();
         for (User prevUser : previous) {
             mapPrev.put(prevUser.getId(), prevUser.getName());
@@ -23,15 +23,7 @@ public class Analize {
                 change++;
             }
         }
-        Map<Integer, String> mapCurrent = new HashMap<>();
-        for (User currentUser : current) {
-            mapCurrent.put(currentUser.getId(), currentUser.getName());
-        }
-        for (User prevUser : previous) {
-            if (mapCurrent.get(prevUser.getId()) == null) {
-                delete++;
-            }
-        }
+        delete = previous.size() + add - current.size();
         return new Info(add, change, delete);
     }
 
