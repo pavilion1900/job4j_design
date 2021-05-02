@@ -11,15 +11,14 @@ public class Analize {
         int add = 0;
         int change = 0;
         int delete;
-        Map<Integer, String> mapPrev = new HashMap<>();
+        Map<Integer, User> mapPrev = new HashMap<>();
         for (User prevUser : previous) {
-            mapPrev.put(prevUser.getId(), prevUser.getName());
+            mapPrev.put(prevUser.getId(), prevUser);
         }
         for (User currentUser : current) {
             if (mapPrev.get(currentUser.getId()) == null) {
                 add++;
-            } else if (mapPrev.get(currentUser.getId()) != null
-                    && !mapPrev.get(currentUser.getId()).equals(currentUser.getName())) {
+            } else if (!mapPrev.get(currentUser.getId()).equals(currentUser)) {
                 change++;
             }
         }
@@ -38,10 +37,6 @@ public class Analize {
 
         public int getId() {
             return id;
-        }
-
-        public String getName() {
-            return name;
         }
 
         @Override
