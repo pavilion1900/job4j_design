@@ -11,15 +11,11 @@ public class LogFilter {
     public static List<String> filter(String file) {
         List<String> rsl = new ArrayList<>();
         try (BufferedReader buffer = new BufferedReader(new FileReader("log.txt"))) {
-            List<String> text = new ArrayList<>();
             String line;
             while ((line = buffer.readLine()) != null) {
-                text.add(line);
-            }
-            for (String elem : text) {
-                String[] temp = elem.split(" ");
+                String[] temp = line.split(" ");
                 if (Integer.parseInt(temp[temp.length - 2]) == 404) {
-                    rsl.add(elem);
+                    rsl.add(line);
                 }
             }
         } catch (FileNotFoundException e) {
