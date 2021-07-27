@@ -21,7 +21,6 @@ public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
         if (!map.containsKey(fileProperty)) {
             map.put(fileProperty, file);
         } else {
-            list.add(map.get(fileProperty));
             list.add(file);
         }
         return super.visitFile(file, attrs);
