@@ -8,6 +8,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
     private int size = 0;
     private int modCount = 0;
 
+    @SuppressWarnings("MoveFieldAssignmentToInitializer")
     public SimpleHashMap() {
         this.table = new Node[3];
     }
