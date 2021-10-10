@@ -54,6 +54,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
         return rsl;
     }
 
+    @SuppressWarnings("MoveFieldAssignmentToInitializer")
     private Node<K, V>[] resizeTable() {
         Node<K, V>[] oldTable = table;
         Node<K, V>[] newTable = new Node[oldTable.length * 2];
