@@ -24,6 +24,7 @@ public class SimpleArray<T> implements Iterable<T> {
         }
     }
 
+    @SuppressWarnings("MoveFieldAssignmentToInitializer")
     public T get(int index) {
         Objects.checkIndex(index, size);
         return (T) container[index];
@@ -40,6 +41,7 @@ public class SimpleArray<T> implements Iterable<T> {
                 return point < size;
             }
 
+            @SuppressWarnings("MoveFieldAssignmentToInitializer")
             @Override
             public T next() {
                 if (!hasNext()) {
