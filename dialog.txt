@@ -1,0 +1,16 @@
+User: 1
+Bot: avocado
+User: 2
+Bot: apple
+User: 3
+Bot: blueberry
+User: стоп
+User: 4
+User: 5
+User: 6
+User: продолжить
+User: 7
+Bot: banana
+User: 8
+Bot: avocado
+User: закончить
