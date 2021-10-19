@@ -25,11 +25,11 @@ public class ConsoleChat {
         boolean rsl = true;
         while (rsl) {
             question = scanner.nextLine();
-            if (question.equals(OUT)) {
+            if (OUT.equals(question)) {
                 log.add("User: " + question);
                 rsl = false;
-            } else if (question.equals(STOP)) {
-                while (!question.equals(CONTINUE)) {
+            } else if (STOP.equals(question)) {
+                while (!CONTINUE.equals(question)) {
                     log.add("User: " + question);
                     question = scanner.nextLine();
                 }
