@@ -55,8 +55,12 @@ public class CSVReader {
                 rsl.add(System.lineSeparator());
             }
         }
-        try (PrintWriter out = new PrintWriter(new FileWriter(output))) {
-            rsl.forEach(out::print);
+        if ("stdout".equals(output.getName())) {
+            rsl.forEach(System.out::print);
+        } else {
+            try (PrintWriter out = new PrintWriter(new FileWriter(output))) {
+                rsl.forEach(out::print);
+            }
         }
     }
 }
