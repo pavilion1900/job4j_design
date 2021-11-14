@@ -23,11 +23,8 @@ public class CSVReader {
         }
     }
 
-    public static void handle(ArgsName argsName) throws Exception {
-        File source = new File(argsName.get("path"));
-        File output = new File(argsName.get("out"));
-        String[] filterColumn = argsName.get("filter").split(",");
-        String delimiter = argsName.get("delimiter");
+    private static List<Integer> getIndex(
+            File source, String[] filterColumn, String delimiter) throws Exception {
         List<Integer> listIndex = new ArrayList<>();
         try (Scanner scanner = new Scanner(source)) {
             if (scanner.hasNext()) {
@@ -41,6 +38,25 @@ public class CSVReader {
                 }
             }
         }
+        return listIndex;
+    }
+
+    private static void showInfo(File output, List<String> rsl) throws IOException {
+        if ("stdout".equals(output.getName())) {
+            rsl.forEach(System.out::print);
+        } else {
+            try (PrintWriter out = new PrintWriter(new FileWriter(output))) {
+                rsl.forEach(out::print);
+            }
+        }
+    }
+
+    public static void handle(ArgsName argsName) throws Exception {
+        File source = new File(argsName.get("path"));
+        File output = new File(argsName.get("out"));
+        String[] filterColumn = argsName.get("filter").split(",");
+        String delimiter = argsName.get("delimiter");
+        List<Integer> listIndex = getIndex(source, filterColumn, delimiter);
         List<String> rsl = new ArrayList<>();
         try (Scanner scanner = new Scanner(source)) {
             while (scanner.hasNext()) {
@@ -55,12 +71,6 @@ public class CSVReader {
                 rsl.add(System.lineSeparator());
             }
         }
-        if ("stdout".equals(output.getName())) {
-            rsl.forEach(System.out::print);
-        } else {
-            try (PrintWriter out = new PrintWriter(new FileWriter(output))) {
-                rsl.forEach(out::print);
-            }
-        }
+        showInfo(output, rsl);
     }
 }
