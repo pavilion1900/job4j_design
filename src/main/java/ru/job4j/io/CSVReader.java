@@ -5,21 +5,12 @@ import java.util.*;
 
 public class CSVReader {
     public static void validate(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException("Root folder is null");
-        }
-        ArgsName argsName = ArgsName.of(args);
-        if (argsName.get("path") == null) {
-            throw new IllegalArgumentException("Not enough arguments. Path is empty");
-        }
-        if (argsName.get("out") == null) {
-            throw new IllegalArgumentException("Not enough arguments. Out is empty");
-        }
-        if (argsName.get("filter") == null) {
-            throw new IllegalArgumentException("Not enough arguments. Filter is empty");
-        }
-        if (argsName.get("delimiter") == null) {
-            throw new IllegalArgumentException("Not enough arguments. Delimiter is empty");
+        if (args.length > 0 && args.length < 4) {
+            throw new IllegalArgumentException("Not enough arguments. "
+                    + "Check next arguments path, out, filter, delimiter");
+        } else if (args.length > 4) {
+            throw new IllegalArgumentException("Arguments are more than need. "
+                    + "Delete unnecessary arguments");
         }
     }
 
