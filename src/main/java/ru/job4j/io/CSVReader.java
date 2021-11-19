@@ -14,6 +14,21 @@ public class CSVReader {
         }
     }
 
+    private static void validateArguments(ArgsName argsName) {
+        if (argsName.get("path") == null) {
+            throw new IllegalArgumentException("Not enough arguments. Path is empty");
+        }
+        if (argsName.get("out") == null) {
+            throw new IllegalArgumentException("Not enough arguments. Out is empty");
+        }
+        if (argsName.get("filter") == null) {
+            throw new IllegalArgumentException("Not enough arguments. Filter is empty");
+        }
+        if (argsName.get("delimiter") == null) {
+            throw new IllegalArgumentException("Not enough arguments. Delimiter is empty");
+        }
+    }
+
     private static List<Integer> getIndex(
             File source, String[] filterColumn, String delimiter) throws Exception {
         List<Integer> listIndex = new ArrayList<>();
@@ -43,6 +58,7 @@ public class CSVReader {
     }
 
     public static void handle(ArgsName argsName) throws Exception {
+        validateArguments(argsName);
         File source = new File(argsName.get("path"));
         File output = new File(argsName.get("out"));
         String[] filterColumn = argsName.get("filter").split(",");
