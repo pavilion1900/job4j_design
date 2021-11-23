@@ -1,13 +1,25 @@
 package ru.job4j.serialization;
 
+import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 
+@XmlRootElement(name = "student")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Student {
-    private final int id;
-    private final String surname;
-    private final boolean job;
-    private final Scooter scooter;
-    private final String[] hobbies;
+
+    @XmlAttribute
+    private int id;
+    @XmlAttribute
+    private String surname;
+    @XmlAttribute
+    private boolean job;
+    private Scooter scooter;
+    @XmlElementWrapper(name = "hobbies")
+    @XmlElement(name = "hobby")
+    private String[] hobbies;
+
+    public Student() {
+    }
 
     public Student(int id, String surname, boolean job, Scooter scooter, String[] hobbies) {
         this.id = id;

@@ -1,8 +1,18 @@
 package ru.job4j.serialization;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "scooter")
 public class Scooter {
-    private final String model;
-    private final int speed;
+
+    @XmlAttribute
+    private String model;
+    @XmlAttribute
+    private int speed;
+
+    public Scooter() {
+    }
 
     public Scooter(String model, int speed) {
         this.model = model;
