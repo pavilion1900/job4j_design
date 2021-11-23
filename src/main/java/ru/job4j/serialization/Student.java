@@ -29,6 +29,26 @@ public class Student {
         this.hobbies = hobbies;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public boolean isJob() {
+        return job;
+    }
+
+    public Scooter getScooter() {
+        return scooter;
+    }
+
+    public String[] getHobbies() {
+        return hobbies;
+    }
+
     @Override
     public String toString() {
         return "Student{" + "id=" + id

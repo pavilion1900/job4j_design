@@ -19,6 +19,14 @@ public class Scooter {
         this.speed = speed;
     }
 
+    public String getModel() {
+        return model;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
     @Override
     public String toString() {
         return "Scooter{" + "model='" + model + '\''
