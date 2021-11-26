@@ -41,6 +41,35 @@ public class CSVReaderTest {
         Assert.assertEquals(expected, Files.readString(target.toPath()));
     }
 
+    @Test
+    public void whenFilterTwoDifferColumns() throws Exception {
+        String data = String.join(
+                System.lineSeparator(),
+                "name;age;last_name;education",
+                "Tom;20;Smith;Bachelor",
+                "Jack;25;Johnson;Undergraduate",
+                "William;30;Brown;Secondary special"
+        );
+        File file = temporaryFolder.newFile("source.csv");
+        File target = temporaryFolder.newFile("target.csv");
+        String[] args = new String[]{
+                "-path=" + file.getAbsolutePath(), "-delimiter=;",
+                "-out=" + target.getAbsolutePath(), "-filter=age,education"
+        };
+        CSVReader.validate(args);
+        ArgsName argsName = ArgsName.of(args);
+        Files.writeString(file.toPath(), data);
+        String expected = String.join(
+                System.lineSeparator(),
+                "age;education",
+                "20;Bachelor",
+                "25;Undergraduate",
+                "30;Secondary special"
+        ).concat(System.lineSeparator());
+        CSVReader.handle(argsName);
+        Assert.assertEquals(expected, Files.readString(target.toPath()));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void whenRootFolderIsNull() throws Exception {
         String data = String.join(

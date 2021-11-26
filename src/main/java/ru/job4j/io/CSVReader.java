@@ -38,7 +38,7 @@ public class CSVReader {
                 for (int i = 0; i < filterColumn.length; i++) {
                     for (int j = 0; j < array.length; j++) {
                         if (filterColumn[i].equals(array[j])) {
-                            listIndex.add(i);
+                            listIndex.add(j);
                         }
                     }
                 }
@@ -70,12 +70,11 @@ public class CSVReader {
                 String[] array = scanner.nextLine().split(delimiter);
                 for (int i = 0; i < listIndex.size(); i++) {
                     if (i == listIndex.size() - 1) {
-                        rsl.add(array[i]);
+                        rsl.add(array[listIndex.get(i)] + System.lineSeparator());
                         break;
                     }
-                    rsl.add(array[i] + delimiter);
+                    rsl.add(array[listIndex.get(i)] + delimiter);
                 }
-                rsl.add(System.lineSeparator());
             }
         }
         showInfo(output, rsl);
