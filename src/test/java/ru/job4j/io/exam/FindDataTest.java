@@ -26,17 +26,17 @@ public class FindDataTest {
         FindData.validate(arrayArguments);
         Arguments arguments = Arguments.of(arrayArguments);
         FindData.handle(arguments);
-        List<String> exp = List.of(
-                first.getAbsolutePath(),
-                log.getAbsolutePath(),
-                second.getAbsolutePath(),
-                sixth.getAbsolutePath(),
-                third.getAbsolutePath());
-        List<String> rsl = new ArrayList<>();
+        String exp = String.join(System.lineSeparator(),
+                "first.txt", "log.txt", "second.txt", "sixth.txt", "third.txt", "");
+        StringBuilder rsl = new StringBuilder();
         try (BufferedReader in = new BufferedReader(new FileReader(log))) {
-            in.lines().forEach(rsl::add);
+            String line;
+            while ((line = in.readLine()) != null) {
+                String[] array = line.split("\\\\");
+                rsl.append(array[array.length - 1] + System.lineSeparator());
+            }
         }
-        Assert.assertEquals(exp, rsl);
+        Assert.assertEquals(exp, rsl.toString());
     }
 
     @Test
@@ -53,14 +53,16 @@ public class FindDataTest {
         FindData.validate(arrayArguments);
         Arguments arguments = Arguments.of(arrayArguments);
         FindData.handle(arguments);
-        List<String> exp = List.of(
-                fourth.getAbsolutePath()
-        );
-        List<String> rsl = new ArrayList<>();
+        String exp = String.join(System.lineSeparator(), "fourth.csv", "");
+        StringBuilder rsl = new StringBuilder();
         try (BufferedReader in = new BufferedReader(new FileReader(log))) {
-            in.lines().forEach(rsl::add);
+            String line;
+            while ((line = in.readLine()) != null) {
+                String[] array = line.split("\\\\");
+                rsl.append(array[array.length - 1] + System.lineSeparator());
+            }
         }
-        Assert.assertEquals(exp, rsl);
+        Assert.assertEquals(exp, rsl.toString());
     }
 
     @Test(expected = IllegalArgumentException.class)
