@@ -14,20 +14,14 @@ public class FindDataTest {
 
     @Test
     public void whenUseMask() throws Exception {
-        File first = tempFolder.newFile("first.txt");
-        File second = tempFolder.newFile("second.txt");
-        File third = tempFolder.newFile("third.txt");
-        File fourth = tempFolder.newFile("fourth.csv");
-        File fifth = tempFolder.newFile("fifth.csv");
-        File sixth = tempFolder.newFile("sixth.txt");
-        File log = tempFolder.newFile("log.txt");
-        String[] arrayArguments = new String[]{"-d=" + tempFolder.getRoot(),
+        File log = new File("./data/logRsl.txt");
+        String[] arrayArguments = new String[]{"-d=" + log.getParent(),
                 "-n=*.txt", "-t=mask", "-o=" + log.getAbsolutePath()};
         FindData.validate(arrayArguments);
         Arguments arguments = Arguments.of(arrayArguments);
         FindData.handle(arguments);
         String exp = String.join(System.lineSeparator(),
-                "first.txt", "log.txt", "second.txt", "sixth.txt", "third.txt", "");
+                "first.txt", "logRsl.txt", "second.txt", "");
         StringBuilder rsl = new StringBuilder();
         try (BufferedReader in = new BufferedReader(new FileReader(log))) {
             String line;
