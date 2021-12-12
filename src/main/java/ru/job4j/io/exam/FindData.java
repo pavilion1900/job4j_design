@@ -31,7 +31,7 @@ public class FindData {
         }
     }
 
-    private static void showInfo(File output, List<Path> rsl) throws IOException {
+    private static void showInfo(File output, Set<Path> rsl) throws IOException {
         if ("stdout".equals(output.getName())) {
             rsl.forEach(System.out::print);
         } else {
@@ -41,18 +41,18 @@ public class FindData {
         }
     }
 
-    private static List<Path> listData(Path directory, String fileFind, String typeSearch)
+    private static Set<Path> listData(Path directory, String fileFind, String typeSearch)
             throws IOException {
-        List<Path> list = new ArrayList<>();
+        Set<Path> set = new TreeSet<>();
         Predicate<Path> maskPredicate =
                 elem -> elem.toFile().getName().toLowerCase().endsWith(fileFind.substring(1));
         Predicate<Path> namePredicate = elem -> elem.toFile().getName().equals(fileFind);
         if ("mask".equals(typeSearch)) {
-            list = FindFiles.search(directory, maskPredicate);
+            set = FindFiles.search(directory, maskPredicate);
         } else if ("name".equals(typeSearch)) {
-            list = FindFiles.search(directory, namePredicate);
+            set = FindFiles.search(directory, namePredicate);
         }
-        return list;
+        return set;
     }
 
     public static void handle(Arguments arguments) throws Exception {
@@ -61,7 +61,7 @@ public class FindData {
         String fileFind = arguments.getValue("n");
         String typeSearch = arguments.getValue("t");
         File output = new File(arguments.getValue("o"));
-        List<Path> list = listData(directory, fileFind, typeSearch);
-        showInfo(output, list);
+        Set<Path> set = listData(directory, fileFind, typeSearch);
+        showInfo(output, set);
     }
 }
