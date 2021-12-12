@@ -14,20 +14,23 @@ public class FindDataTest {
 
     @Test
     public void whenUseMask() throws Exception {
-        File log = new File("./data/logRsl.txt");
+        File first = tempFolder.newFile("first.txt");
+        File second = tempFolder.newFile("second.txt");
+        File fourth = tempFolder.newFile("fourth.csv");
+        File fifth = tempFolder.newFile("fifth.csv");
+        File log = tempFolder.newFile("log.txt");
         String[] arrayArguments = new String[]{"-d=" + log.getParent(),
                 "-n=*.txt", "-t=mask", "-o=" + log.getAbsolutePath()};
         FindData.validate(arrayArguments);
         Arguments arguments = Arguments.of(arrayArguments);
         FindData.handle(arguments);
-        String exp = String.join(System.lineSeparator(),
-                "first.txt", "logRsl.txt", "second.txt", "");
+        String exp = String.join(System.lineSeparator(), first.getAbsolutePath(),
+                log.getAbsolutePath(), second.getAbsolutePath(), "");
         StringBuilder rsl = new StringBuilder();
         try (BufferedReader in = new BufferedReader(new FileReader(log))) {
             String line;
             while ((line = in.readLine()) != null) {
-                String[] array = line.split("\\\\");
-                rsl.append(array[array.length - 1] + System.lineSeparator());
+                rsl.append(line + System.lineSeparator());
             }
         }
         Assert.assertEquals(exp, rsl.toString());
@@ -42,7 +45,7 @@ public class FindDataTest {
         File fifth = tempFolder.newFile("fifth.csv");
         File sixth = tempFolder.newFile("sixth.txt");
         File log = tempFolder.newFile("log.txt");
-        String[] arrayArguments = new String[]{"-d=" + tempFolder.getRoot(),
+        String[] arrayArguments = new String[]{"-d=" + log.getParent(),
                 "-n=fourth.csv", "-t=name", "-o=" + log.getAbsolutePath()};
         FindData.validate(arrayArguments);
         Arguments arguments = Arguments.of(arrayArguments);
@@ -68,7 +71,7 @@ public class FindDataTest {
         File fifth = tempFolder.newFile("fifth.csv");
         File sixth = tempFolder.newFile("sixth.txt");
         File log = tempFolder.newFile("log.txt");
-        String[] arrayArguments = new String[]{"-d=" + tempFolder.getRoot(),
+        String[] arrayArguments = new String[]{"-d=" + log.getParent(),
                 "-n=fourth.csv", "-o=" + log.getAbsolutePath()};
         FindData.validate(arrayArguments);
         Arguments arguments = Arguments.of(arrayArguments);
