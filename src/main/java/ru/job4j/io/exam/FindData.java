@@ -4,19 +4,17 @@ import java.io.*;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class FindData {
-    public static void validate(String[] args) {
-        if (args.length > 0 && args.length < 4) {
-            throw new IllegalArgumentException("Not enough arguments. "
-                    + "Check next arguments: directory, fileFind, typeSearch, output");
-        } else if (args.length > 4) {
-            throw new IllegalArgumentException("Arguments are more than need. "
-                    + "Delete unnecessary arguments");
+    public void validate(String[] args) {
+        if (args.length != 4) {
+            throw new IllegalArgumentException(
+                    "Check value next arguments: directory, fileFind, typeSearch, output");
         }
     }
 
-    private static void validateArguments(Arguments arguments) {
+    private void validateArguments(Arguments arguments) {
         if (arguments.getValue("d") == null) {
             throw new IllegalArgumentException("Not enough argument. Directory is empty");
         }
@@ -31,7 +29,7 @@ public class FindData {
         }
     }
 
-    private static void showInfo(File output, Set<Path> rsl) throws IOException {
+    private void showInfo(File output, Set<Path> rsl) throws IOException {
         if ("stdout".equals(output.getName())) {
             rsl.forEach(System.out::print);
         } else {
@@ -41,27 +39,50 @@ public class FindData {
         }
     }
 
-    private static Set<Path> listData(Path directory, String fileFind, String typeSearch)
+    private Set<Path> listData(Path directory, String fileFind, String typeSearch)
             throws IOException {
         Set<Path> set = new TreeSet<>();
-        Predicate<Path> maskPredicate =
-                elem -> elem.toFile().getName().toLowerCase().endsWith(fileFind.substring(1));
-        Predicate<Path> namePredicate = elem -> elem.toFile().getName().equals(fileFind);
-        if ("mask".equals(typeSearch)) {
-            set = ru.job4j.io.exam.FindFiles.search(directory, maskPredicate);
-        } else if ("name".equals(typeSearch)) {
-            set = FindFiles.search(directory, namePredicate);
+        Predicate<Path> predicate;
+        FindFiles findFiles;
+        Pattern pattern;
+        if ("name".equals(typeSearch)) {
+            predicate = elem -> elem.toFile().getName().equals(fileFind);
+            findFiles = new FindFiles(predicate);
+            set = findFiles.search(directory, predicate);
+        } else if ("mask".equals(typeSearch) || "regex".equals(typeSearch)) {
+            pattern = Pattern.compile(fileFind);
+            predicate = elem -> pattern.matcher(elem.toFile().getName().toLowerCase()).find();
+            findFiles = new FindFiles(predicate);
+            set = findFiles.search(directory, predicate);
         }
         return set;
     }
 
-    public static void handle(Arguments arguments) throws Exception {
-        validateArguments(arguments);
+    private String convert(String fileFind, String typeSearch) {
+        if ("mask".equals(typeSearch)) {
+            fileFind = fileFind.replace("*", "\\w+").replace(".", "\\.");
+        } else if ("regex".equals(typeSearch)) {
+            fileFind = fileFind.replaceAll("[\\\\]{2}", "\\\\");
+        }
+        return fileFind;
+    }
+
+    public void handle(Arguments arguments) throws Exception {
+        FindData findData = new FindData();
+        findData.validateArguments(arguments);
         Path directory = Path.of(arguments.getValue("d"));
         String fileFind = arguments.getValue("n");
         String typeSearch = arguments.getValue("t");
         File output = new File(arguments.getValue("o"));
-        Set<Path> set = listData(directory, fileFind, typeSearch);
-        showInfo(output, set);
+        fileFind = findData.convert(fileFind, typeSearch);
+        Set<Path> set = findData.listData(directory, fileFind, typeSearch);
+        findData.showInfo(output, set);
+    }
+
+    public static void main(String[] args) throws Exception {
+        FindData findData = new FindData();
+        findData.validate(args);
+        Arguments arguments = new Arguments().of(args);
+        findData.handle(arguments);
     }
 }

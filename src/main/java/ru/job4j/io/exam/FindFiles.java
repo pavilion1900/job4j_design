@@ -20,8 +20,9 @@ public class FindFiles extends SimpleFileVisitor<Path> {
         return set;
     }
 
-    public static Set<Path> search(Path path, Predicate<Path> predicate) throws IOException {
-        ru.job4j.io.exam.FindFiles findFiles = new ru.job4j.io.exam.FindFiles(predicate);
+    public Set<Path> search(Path path, Predicate<Path> predicate) throws IOException {
+        FindFiles findFiles = new FindFiles(predicate);
+        Files.walkFileTree(path, findFiles);
         Files.walkFileTree(path, findFiles);
         return findFiles.getSet();
     }

@@ -25,8 +25,8 @@ public class Arguments {
         }
     }
 
-    public static ru.job4j.io.exam.Arguments of(String[] args) {
-        ru.job4j.io.exam.Arguments arguments = new ru.job4j.io.exam.Arguments();
+    public Arguments of(String[] args) {
+        Arguments arguments = new Arguments();
         arguments.parse(args);
         return arguments;
     }
