@@ -13,7 +13,7 @@ public class ConfigTest {
         Config config = new Config(path);
         config.load();
         assertThat(config.value("hibernate.connection.username"), is("postgres"));
-        assertThat(config.value("hibernate.connection.password"), is("password"));
+        assertThat(config.value("hibernate.connection.password"), is("1234"));
     }
 
     @Test(expected = IllegalArgumentException.class)
