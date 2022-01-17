@@ -28,7 +28,6 @@ public class TableEditor implements AutoCloseable {
             if (!sql.contains("drop table")) {
                 System.out.println(getTableScheme(connection, tableName));
             }
-            connection.close();
         }
     }
 
@@ -102,5 +101,6 @@ public class TableEditor implements AutoCloseable {
         editor.renameColumn(tableName, columnName, newColumnName);
         editor.dropColumn(tableName, newColumnName);
         editor.dropTable(tableName);
+        editor.close();
     }
 }
