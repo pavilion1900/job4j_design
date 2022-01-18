@@ -18,8 +18,16 @@ public class ImportDB {
         try (BufferedReader in = new BufferedReader(new FileReader(dump))) {
             String line;
             while ((line = in.readLine()) != null) {
-                String[] array = line.split(";");
-                users.add(new User(array[0], array[1]));
+                if (!line.isEmpty()) {
+                    String[] array = line.split(";");
+                    if (array.length != 2) {
+                        throw new IllegalArgumentException();
+                    }
+                    if (array[0].isEmpty() || array[1].isEmpty()) {
+                        throw new IllegalArgumentException();
+                    }
+                    users.add(new User(array[0], array[1]));
+                }
             }
         }
         return users;
