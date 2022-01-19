@@ -20,10 +20,7 @@ public class ImportDB {
             while ((line = in.readLine()) != null) {
                 if (!line.isEmpty()) {
                     String[] array = line.split(";");
-                    if (array.length != 2) {
-                        throw new IllegalArgumentException();
-                    }
-                    if (array[0].isEmpty() || array[1].isEmpty()) {
+                    if (array.length != 2 || array[0].isEmpty() || array[1].isEmpty()) {
                         throw new IllegalArgumentException();
                     }
                     users.add(new User(array[0], array[1]));
