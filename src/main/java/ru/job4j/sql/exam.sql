@@ -22,13 +22,11 @@
  (18, 'Popov', 7);
 
 -- имена всех person, которые не состоят в компании с id = 5;
-
- select name from person where company_id != 5;
-
 -- название компании для каждого человека.
 
- select pers.name, com.name from person pers
- join company com on pers.company_id = com.id;
+ select pers.name person_name, com.name company_name from person pers
+ join company com on pers.company_id = com.id
+ where pers.company_id != 5;
 
 -- название компании с максимальным количеством человек + количество человек в этой компании
 
