@@ -1,0 +1,4 @@
+street Rechnay, 15 / 42
+street Lenina, 20 / 10
+street Mazurova, 110 / 35
+street Kirova, 80 / 25
