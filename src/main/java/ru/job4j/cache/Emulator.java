@@ -10,7 +10,7 @@ public class Emulator {
     }
 
     public void loadDataToCache(String pathFile) {
-        cache.load(pathFile);
+        cache.put(pathFile, cache.load(pathFile));
     }
 
     public String getData(String pathFile) {
@@ -64,10 +64,10 @@ public class Emulator {
     public static void main(String[] args) {
         List<String> actions = List.of(
                 "src/main/java/ru/job4j/cache/dir",
-                "no",
-                "src/main/java/ru/job4j/cache/dir/Addresses.txt",
-                "src/main/java/ru/job4j/cache/dir/Cities.txt",
-                "src/main/java/ru/job4j/cache/dir/Names.txt",
+                "Addresses.txt",
+                "Addresses.txt",
+                "Cities.txt",
+                "Names.txt",
                 "stop");
         new Emulator().run(actions);
     }
