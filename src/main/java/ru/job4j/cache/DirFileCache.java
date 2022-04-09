@@ -18,7 +18,6 @@ public class DirFileCache extends AbstractCache<String, String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        put(key, value.toString());
         return value.toString();
     }
 }
