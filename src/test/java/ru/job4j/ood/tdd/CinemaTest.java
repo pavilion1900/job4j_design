@@ -23,16 +23,32 @@ public class CinemaTest {
         assertThat(ticket, is(new Ticket3D()));
     }
 
-    @Test
-    public void whenDontBuy() {
+    @Test(expected = IllegalArgumentException.class)
+    public void whenDontBuyTheSameTicket() {
         Account account = new AccountCinema();
         Cinema cinema = new Cinema3D();
         Calendar date = Calendar.getInstance();
         date.set(2020, 10, 10, 23, 00);
         Ticket ticket1 = cinema.buy(account, 1, 1, date);
         Ticket ticket2 = cinema.buy(account, 1, 1, date);
-        assertThat(ticket1, is(new Ticket3D()));
-        assertNull(ticket2);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenDontBuyWithInvalidDate() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, 15, 50, 23, 00);
+        Ticket ticket = cinema.buy(account, 1, 1, date);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenDontBuyWithInvalidPlace() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, 10, 10, 23, 00);
+        Ticket ticket = cinema.buy(account, -1, -1, date);
     }
 
     @Test
