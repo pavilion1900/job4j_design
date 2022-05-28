@@ -6,13 +6,14 @@ import org.junit.Test;
 import java.util.Map;
 
 import static java.util.Map.entry;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 @Ignore
 public class QuestionGeneratorTest {
 
     @Test
-    public void produceWithCorrectData() {
+    public void whenProduceWithCorrectData() {
         String template = "I am a ${name}, Who are ${subject}? ";
         Map<String, String> args = Map.ofEntries(
                 entry("name", "Petr Arsentev"),
@@ -20,11 +21,11 @@ public class QuestionGeneratorTest {
         );
         Generator generator = new QuestionGenerator();
         String generatedString = generator.produce(template, args);
-        assertTrue(generatedString.matches("I am a \\w+\\s?\\w+, Who are \\w+\\? "));
+        assertThat(generatedString, is("I am a Petr Arsentev, Who are you? "));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void produceWithInvalidTemplateKeys() {
+    public void whenProduceWithInvalidTemplateKeys() {
         String template = "I am a ${id}, Who are ${date}? ";
         Map<String, String> args = Map.ofEntries(
                 entry("name", "Petr Arsentev"),
@@ -35,7 +36,7 @@ public class QuestionGeneratorTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void produceWithExtraKeysInMap() {
+    public void whenProduceWithExtraKeysInMap() {
         String template = "I am a ${name}, Who are ${subject}? ";
         Map<String, String> args = Map.ofEntries(
                 entry("name", "Petr Arsentev"),
