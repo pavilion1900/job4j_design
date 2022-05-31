@@ -2,17 +2,24 @@ package ru.job4j.ood.srp;
 
 import java.util.function.Predicate;
 
-public class ReportEngine<T> implements Report<T> {
+public class ReportEngine implements Report<String> {
     private Store store;
-    private Department department;
 
-    public ReportEngine(Store store, Department department) {
+    public ReportEngine(Store store) {
         this.store = store;
-        this.department = department;
     }
 
     @Override
-    public T generate(Predicate<Employee> filter) {
-        return (T) department.format(store.findBy(filter));
+    public String generate(Predicate<Employee> filter) {
+        StringBuilder text = new StringBuilder();
+        text.append("Name; Hired; Fired; Salary;");
+        for (Employee employee : store.findBy(filter)) {
+            text.append(System.lineSeparator())
+                    .append(employee.getName()).append(";")
+                    .append(employee.getHired()).append(";")
+                    .append(employee.getFired()).append(";")
+                    .append(employee.getSalary()).append(";");
+        }
+        return text.toString();
     }
 }

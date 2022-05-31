@@ -2,11 +2,19 @@ package ru.job4j.ood.srp;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 
-public class HRDepartment implements Department<String> {
+public class HRDepartment implements Report<String> {
+    private Store store;
+
+    public HRDepartment(Store store) {
+        this.store = store;
+    }
+
     @Override
-    public String format(List<Employee> employeeList) {
+    public String generate(Predicate<Employee> filter) {
         Comparator<Employee> sortSalaryDesc = Comparator.comparing(Employee::getSalary).reversed();
+        List<Employee> employeeList = store.findBy(filter);
         employeeList.sort(sortSalaryDesc);
         StringBuilder text = new StringBuilder()
                 .append("Name; Salary;");

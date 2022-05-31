@@ -14,7 +14,7 @@ public class MemStoreTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        Report<String> engine = new ReportEngine(store, new OldDepartment());
+        Report<String> engine = new ReportEngine(store);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
@@ -35,7 +35,7 @@ public class MemStoreTest {
         store.add(worker);
         store.add(worker2);
         store.add(worker3);
-        Report<String> engine = new ReportEngine(store, new ITDepartment());
+        Report<String> engine = new ITDepartment(store);
         String ln = System.lineSeparator();
         StringBuilder expect = new StringBuilder()
                 .append("<!doctype html>").append(ln)
@@ -61,14 +61,14 @@ public class MemStoreTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100.25);
         store.add(worker);
-        Report<String> engine = new ReportEngine(store, new AccountingDepartment());
+        Report<String> engine = new AccountingDepartment(store, 1.2);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
                 .append(worker.getName()).append(";")
                 .append(worker.getHired()).append(";")
                 .append(worker.getFired()).append(";")
-                .append("100 руб 25 коп").append(";");
+                .append("120.3").append(";");
         assertThat(engine.generate(em -> true), is(expect.toString()));
     }
 
@@ -83,7 +83,7 @@ public class MemStoreTest {
         store.add(worker2);
         store.add(worker3);
         String ln = System.lineSeparator();
-        Report<String> engine = new ReportEngine(store, new HRDepartment());
+        Report<String> engine = new HRDepartment(store);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Salary;")
                 .append(ln)
