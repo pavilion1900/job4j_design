@@ -2,6 +2,7 @@ package ru.job4j.ood.srp;
 
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import static org.hamcrest.Matchers.is;
@@ -96,5 +97,61 @@ public class MemStoreTest {
                 .append(worker3.getName()).append(";")
                 .append(worker3.getSalary()).append(";");
         assertThat(engine.generate(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void whenGeneratedToJSON() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH);
+        int dayOfMonth = now.get(Calendar.DAY_OF_MONTH);
+        int hourOfDay = now.get(Calendar.HOUR_OF_DAY);
+        int minute = now.get(Calendar.MINUTE);
+        int second = now.get(Calendar.SECOND);
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report<String> engine = new JSONReport(store);
+        String expect = "[{\"name\":\"Ivan\",\"hired\":{\"year\":" + year + ",\"month\":" + month
+                + ",\"dayOfMonth\":" + dayOfMonth + ",\"hourOfDay\":" + hourOfDay
+                + ",\"minute\":" + minute + ",\"second\":" + second + "},\"fired\":{\"year\":"
+                + year + ",\"month\":" + month + ",\"dayOfMonth\":" + dayOfMonth
+                + ",\"hourOfDay\":" + hourOfDay + ",\"minute\":" + minute + ",\"second\":"
+                + second + "},\"salary\":100.0}]";
+        assertThat(engine.generate(em -> true), is(expect));
+    }
+
+    @Test
+    public void whenGeneratedToXML() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Employee worker = new Employee("Ivan", now, now, 100);
+        Employee worker2 = new Employee("Pavel", now, now, 150);
+        store.add(worker);
+        store.add(worker2);
+        Report<String> engine = new XMLReport(store);
+        String expect = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+                + "<employees>\n"
+                + "    <employeesList>\n"
+                + "        <employee>\n"
+                + "            <fired>" + dateFormat.format(worker.getFired().getTime())
+                + "</fired>\n"
+                + "            <hired>" + dateFormat.format(worker.getHired().getTime())
+                + "</hired>\n"
+                + "            <name>Ivan</name>\n"
+                + "            <salary>100.0</salary>\n"
+                + "        </employee>\n"
+                + "        <employee>\n"
+                + "            <fired>" + dateFormat.format(worker2.getFired().getTime())
+                + "</fired>\n"
+                + "            <hired>" + dateFormat.format(worker2.getHired().getTime())
+                + "</hired>\n"
+                + "            <name>Pavel</name>\n"
+                + "            <salary>150.0</salary>\n"
+                + "        </employee>\n"
+                + "    </employeesList>\n"
+                + "</employees>\n";
+        assertThat(engine.generate(em -> true), is(expect));
     }
 }
