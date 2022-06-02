@@ -39,6 +39,10 @@ public class Food {
         return discount;
     }
 
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public void setDiscount(int discount) {
         this.discount = discount;
     }

@@ -4,21 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Shop implements Store {
-    private List<Food> foodList = new ArrayList<>();
+    private final List<Food> foodList = new ArrayList<>();
 
     @Override
     public List<Food> getFoodList() {
-        return foodList;
+        return new ArrayList<>(foodList);
     }
 
     @Override
-    public void sortProduct(Food food, long usageExpirationDate) {
-        int discount = 20;
-        if (usageExpirationDate >= 25 && usageExpirationDate <= 75) {
-            foodList.add(food);
-        } else if (usageExpirationDate > 75 && usageExpirationDate < 100) {
-            food.setDiscount(discount);
+    public boolean sortProduct(Food food) {
+        if (accept(food)) {
+            if (getUsageExpirationDate(food) > 75 && getUsageExpirationDate(food) < 100) {
+                food.setPrice(food.getPrice() * (100 - food.getDiscount()) / 100);
+            }
             foodList.add(food);
         }
+        return accept(food);
+    }
+
+    @Override
+    public boolean accept(Food food) {
+        return getUsageExpirationDate(food) >= 25 && getUsageExpirationDate(food) < 100;
     }
 }

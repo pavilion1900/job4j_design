@@ -1,26 +1,21 @@
 package ru.job4j.ood.lsp;
 
-import java.time.LocalDate;
-
-import static java.time.temporal.ChronoUnit.DAYS;
+import java.util.List;
 
 public class ControlQuality {
-    private Store store;
-    private LocalDate localDate;
+    private final List<Store> storeList;
 
-    public ControlQuality(Store store, LocalDate localDate) {
-        this.store = store;
-        this.localDate = localDate;
+    public ControlQuality(List<Store> storeList) {
+        this.storeList = storeList;
     }
 
-    public void checkProduct(Food food) {
-        long usageExpirationDate = getUsageExpirationDate(food);
-        store.sortProduct(food, usageExpirationDate);
-    }
-
-    private long getUsageExpirationDate(Food food) {
-        long restOfExpirationDate = DAYS.between(localDate, food.getExpireDate());
-        long fullExpirationDate = DAYS.between(food.getCreateDate(), food.getExpireDate());
-        return (fullExpirationDate - restOfExpirationDate) * 100 / fullExpirationDate;
+    public void checkProduct(List<Food> foodList) {
+        for (Food food : foodList) {
+            for (Store store : storeList) {
+                if (store.accept(food)) {
+                    store.sortProduct(food);
+                }
+            }
+        }
     }
 }

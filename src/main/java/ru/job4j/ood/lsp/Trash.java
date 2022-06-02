@@ -4,17 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Trash implements Store {
-    private List<Food> foodList = new ArrayList<>();
+    private final List<Food> foodList = new ArrayList<>();
 
     @Override
     public List<Food> getFoodList() {
-        return foodList;
+        return new ArrayList<>(foodList);
     }
 
     @Override
-    public void sortProduct(Food food, long usageExpirationDate) {
-        if (usageExpirationDate >= 100) {
+    public boolean sortProduct(Food food) {
+        if (accept(food)) {
             foodList.add(food);
         }
+        return accept(food);
+    }
+
+    @Override
+    public boolean accept(Food food) {
+        return getUsageExpirationDate(food) >= 100;
     }
 }
