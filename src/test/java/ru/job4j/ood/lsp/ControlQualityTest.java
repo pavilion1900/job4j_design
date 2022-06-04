@@ -11,6 +11,9 @@ import static org.junit.Assert.assertThat;
 
 public class ControlQualityTest {
     private List<Food> foodList;
+    private Warehouse warehouse = new Warehouse();
+    private Shop shop = new Shop();
+    private Trash trash = new Trash();
     private List<Store> storeList;
     private ControlQuality controlQuality;
 
@@ -25,7 +28,7 @@ public class ControlQualityTest {
         BakeryFood bakeryFood = new BakeryFood("bread", LocalDate.now().plusDays(5),
                 LocalDate.now().minusDays(1), 1.2, 40);
         foodList = List.of(fruit, meatFood, vegetables, bakeryFood);
-        storeList = List.of(new Warehouse(), new Shop(), new Trash());
+        storeList = List.of(warehouse, shop, trash);
         controlQuality = new ControlQuality(storeList);
     }
 
@@ -34,7 +37,7 @@ public class ControlQualityTest {
         controlQuality.checkProduct(foodList);
         List<Food> expected = List.of(new BakeryFood("bread", LocalDate.now().plusDays(5),
                 LocalDate.now().minusDays(1), 1.2, 40));
-        assertThat(storeList.get(0).getFoodList(), is(expected));
+        assertThat(warehouse.getFoodList(), is(expected));
     }
 
     @Test
@@ -44,7 +47,7 @@ public class ControlQualityTest {
                         LocalDate.now().minusDays(32), 3.1, 20),
                 new Vegetables("cucumber", LocalDate.now().plusDays(8),
                         LocalDate.now().minusDays(32), 1.68, 20));
-        assertThat(storeList.get(1).getFoodList(), is(expected));
+        assertThat(shop.getFoodList(), is(expected));
     }
 
     @Test
@@ -52,6 +55,6 @@ public class ControlQualityTest {
         controlQuality.checkProduct(foodList);
         List<Food> expected = List.of(new MeatFood("beef", LocalDate.now().minusDays(13),
                 LocalDate.now().minusDays(32), 15.3, 30));
-        assertThat(storeList.get(2).getFoodList(), is(expected));
+        assertThat(trash.getFoodList(), is(expected));
     }
 }

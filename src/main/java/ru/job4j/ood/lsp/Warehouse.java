@@ -21,6 +21,6 @@ public class Warehouse implements Store {
 
     @Override
     public boolean accept(Food food) {
-        return getUsageExpirationDate(food) >= 0 && getUsageExpirationDate(food) < 25;
+        return getUsageExpirationDate(food) >= 0 && getUsageExpirationDate(food) < MIN_BOUND;
     }
 }
