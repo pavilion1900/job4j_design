@@ -21,6 +21,6 @@ public class Trash implements Store {
 
     @Override
     public boolean accept(Food food) {
-        return getUsageExpirationDate(food) >= MAX_BOUND;
+        return getUsageExpirationDate(food) >= Bound.MAX.getValue();
     }
 }

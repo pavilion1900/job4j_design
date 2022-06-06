@@ -6,9 +6,6 @@ import java.util.List;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public interface Store {
-    int MIN_BOUND = 25;
-    int AVG_BOUND = 75;
-    int MAX_BOUND = 100;
 
     List<Food> getFoodList();
 
@@ -19,6 +16,7 @@ public interface Store {
     default long getUsageExpirationDate(Food food) {
         long restOfExpirationDate = DAYS.between(LocalDate.now(), food.getExpireDate());
         long fullExpirationDate = DAYS.between(food.getCreateDate(), food.getExpireDate());
-        return (fullExpirationDate - restOfExpirationDate) * MAX_BOUND / fullExpirationDate;
+        return (fullExpirationDate - restOfExpirationDate) * Bound.MAX.getValue()
+                / fullExpirationDate;
     }
 }

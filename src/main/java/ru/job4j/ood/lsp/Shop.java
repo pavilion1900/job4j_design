@@ -14,9 +14,10 @@ public class Shop implements Store {
     @Override
     public boolean sortProduct(Food food) {
         if (accept(food)) {
-            if (getUsageExpirationDate(food) > AVG_BOUND
-                    && getUsageExpirationDate(food) < MAX_BOUND) {
-                food.setPrice(food.getPrice() * (MAX_BOUND - food.getDiscount()) / MAX_BOUND);
+            if (getUsageExpirationDate(food) > Bound.AVG.getValue()
+                    && getUsageExpirationDate(food) < Bound.MAX.getValue()) {
+                food.setPrice(food.getPrice() * (Bound.MAX.getValue() - food.getDiscount())
+                        / Bound.MAX.getValue());
             }
             foodList.add(food);
         }
@@ -25,7 +26,7 @@ public class Shop implements Store {
 
     @Override
     public boolean accept(Food food) {
-        return getUsageExpirationDate(food) >= MIN_BOUND
-                && getUsageExpirationDate(food) < MAX_BOUND;
+        return getUsageExpirationDate(food) >= Bound.MIN.getValue()
+                && getUsageExpirationDate(food) < Bound.MAX.getValue();
     }
 }
