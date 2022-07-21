@@ -26,7 +26,7 @@ public class UsageEncoding {
     }
 
     public static void main(String[] args) {
-        String path = "example.txt";
+        String path = "src/main/resources/example.txt";
         UsageEncoding encoding = new UsageEncoding();
         List<String> list = List.of(
                 "Новая строка 1",
